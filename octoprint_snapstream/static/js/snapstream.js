@@ -43,6 +43,7 @@ $(function() {
                 if (self.settings.fallbackonly())
                     webcamImage.error(self.snapStream);
                 else {
+                    webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
                     self.snapStream();
                 }
             }
