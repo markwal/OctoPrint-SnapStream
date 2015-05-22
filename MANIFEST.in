@@ -1,0 +1,4 @@
+include README.md
+include requirements.txt
+include versioneer.py
+include octoprint_snapstream/_version.py
