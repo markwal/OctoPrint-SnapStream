@@ -1,57 +1,35 @@
-OctoPrint Plugin Skeleton
-=========================
+OctoPrint SnapStream Plugin
+===========================
 
-This is a basic plugin skeleton that you can use as a basis for your own OctoPrint plugin.
+This plugin replaces the mjpg-streamer on the control tab with the static snapshot
+image and updates it with a javascript interval timer. You can set it to only
+do this if the mjpg-streamer fails.
 
-You can copy the files to a folder of your choice, or just clone this repository, renaming it in the process. Then 
-modify ``setup.py`` to fit your plugin, rename ``octoprint_skeleton`` accordingly and finally implement your plugin 
-under ``octoprint_<plugin identifier>``.
+This plugin could be useful if you're using a browser that doesn't support mjpeg
+streams (IE) or if you would like to reduce bandwidth usage when accessing from
+the internet perhaps.
 
-Example Usage
--------------
-
-Clone your repository into a new development directory and rename ``octoprint_skeleton``:
-
-    git clone https://github.com/OctoPrint/OctoPrint-PluginSkeleton OctoPrint-MyNewPlugin
-    cd OctoPrint-MyNewPlugin
-    mv octoprint_skeleton octoprint_mynewplugin
-
-Modify `setup.py`'s `plugin_<xyz>` settings so that they match your plugin, e.g.:
-
-``` python
-plugin_identifier = "mynewplugin"
-plugin_name = "OctoPrint-MyNewPlugin"
-plugin_version = "1.0"
-plugin_description = "Awesome plugin that does something"
-plugin_author = "You"
-plugin_author_email = "you@somewhere.net"
-plugin_url = "https://github.com/you/OctoPrint-MyNewPlugin"
+Setup
+-----
 ```
-
-Then implement your plugin under ``octoprint_mynewplugin`` (don't forget to adjust ``__init__.py``!), e.g.:
-
-``` python
-# coding=utf-8
-from __future__ import absolute_import
-
-import octoprint.plugin
-
-class HelloWorldPlugin(octoprint.plugin.StartupPlugin):
-    def on_after_startup(self):
-        self._logger.info("Hello World!")
-        
-__plugin_name__ = "Hello World"
-__plugin_implementation__ = HelloWorldPlugin()
+pip install https://github.com/MarkWal/OctoPrint-SnapStream/archive/master.zip
 ```
+Make sure you use the same Python environment that you installed OctoPrint under
+otherwise the pip install will fail because the plugin won't be able to find its
+dependencies. For octopi this means:
+```
+source ~/oprint/bin/activate
+```
+before you do the pip install.
 
-Test it (e.g. via ``python setup.py develop``). If everything works, write a nice ``README.md``, replacing the existing one.
-Commit your code, then push it to your plugin's repository (this assumes you already created it on Github as
-``you/OctoPrint-MyNewPlugin``), e.g.:
+Restart OctoPrint and the octoprint.log should show the plugin was successfully
+found and loaded.
 
-    git commit -a -m "Initial commit of MyNewPlugin"
-    git remote set-url origin git@github.com:you/OctoPrint-MyNewPlugin.git
-    git push -u origin master
+This plugin uses the url's for the webcam from OctoPrint's webcam settings panel
+so the snapshot url has to point to something your browser can reach.
 
-Congratulations, you are now the proud maintainer of a new OctoPrint plugin! :) Don't forget to add an entry to the
-[wiki](https://github.com/foosel/OctoPrint/wiki#plugins) once it's suitable for general consumption, so that others
-may find it!
+Plugin Settings
+---------------
+In the settings panel under SnapStream you can choose fps (probably needs to be
+something low like 1 or 2).  You can also select whether to use the snapshot
+mode all the time or only when the mjpg stream fails.
