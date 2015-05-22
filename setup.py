@@ -38,7 +38,7 @@ except:
 setup(**octoprint_setuptools.create_plugin_setup_parameters(
 	identifier=plugin_identifier,
 	name=plugin_name,
-	version=versioneer.get_version,
+	version=versioneer.get_version(),
 	cmdclass = versioneer.get_cmdclass(),
 	description=plugin_description,
 	author=plugin_author,
