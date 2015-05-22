@@ -1,0 +1,9 @@
+#webcam_container .flipV.flipH {
+    -ms-transform: scaleX(-1) scaleY(-1);
+}
+#webcam_container .flipV {
+    -ms-transform: scaleY(-1);
+}
+#webcam_container .flipH {
+    -ms-transform: scaleX(-1);
+}

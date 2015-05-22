@@ -2,7 +2,7 @@ $(function() {
     function SnapStreamViewModel(parameters) {
         var self = this;
 
-        self.settings = parameters[0];
+        self.global_settings = parameters[0];
         self.control = parameters[1];
 
         self.appendNoCacheMarker = function (url) {
@@ -17,7 +17,10 @@ $(function() {
 
         self.snapStream = function() {
             var webcamImage = $("#webcam_image");
-            webcamImage.attr("src", self.appendNoCacheMarker(self.settings.webcam_snapshotUrl()));
+            var currentSrc = webcamImage.attr("src");
+            if (currentSrc === undefined || currentSrc.trim() == "")
+                return;
+            webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
             self.webcamUpdateInterval = setInterval(function() {
                 var webcamImage = $("#webcam_image");
                 var currentSrc = webcamImage.attr("src");
@@ -25,19 +28,25 @@ $(function() {
                     clearInterval(self.webcamUpdateInterval);
                 }
                 else {
-                    webcamImage.attr("src", self.appendNoCacheMarker(self.settings.webcam_snapshotUrl()));
+                    webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
                 }
-            }, 1000 / self.settings.plugin.snapstream.fps);
+            }, 1000 / self.settings.fps());
         };
 
         self.onTabChange = function (current, previous) {
             if (current == "#control") {
                 var webcamImage = $("#webcam_image");
-                if (self.settings.plugin.snapstream.fallbackonly())
+                if (self.settings.fallbackonly())
                     webcamImage.error(self.snapStream);
-                else
+                else {
+                    webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
                     self.snapStream();
+                }
             }
+        };
+
+        self.onBeforeBinding = function() {
+            self.settings = self.global_settings.settings.plugins.snapstream;
         };
     }
 

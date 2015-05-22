@@ -2,13 +2,13 @@
     <div class="control-group" data-toggle="tooltip">
         <label class="control-label">{{ _('Frames per second') }}</label>
         <div class="controls">
-            <input type="number" step="1" class="input-mini text-right" data-bind="value: settings.plugins.snapstream.fps" />
+            <input type="number" step="1" class="input-mini text-right" data-bind="value: settings.fps" />
         </div>
     </div>
     <div class="control-group">
         <div class="controls" data-toggle="tooltip" title="{{ _('If this is checked, try mjpg-streamer first and if that fails, use javascript snapshot flipping instead') }}">
             <label class="checkbox">
-                <input type="checkbox" data-bind="checked: settings.plugins.snapstream.fallbackonly"> {{ _('Only use snapstream when mjpg-streamer fails') }}
+                <input type="checkbox" data-bind="checked: settings.fallbackonly"> {{ _('Only use snapstream when mjpg-streamer fails') }}
             </label>
         </div>
     </div>

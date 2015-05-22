@@ -13,16 +13,16 @@ class SnapStreamPlugin(TemplatePlugin, AssetPlugin, SettingsPlugin):
 		return dict(fps=4, fallbackonly=True)
 
 	def get_template_configs(self):
-		return [dict(type="settings", custom_bindings=False)]
+		return [dict(type="settings", custom_bindings=True)]
 
 	def get_assets(self):
-		return dict(js=["js/snapstream.js"])
+		return dict(js=["js/snapstream.js"], css=["css/snapstream.css"])
 
 # If you want your plugin to be registered within OctoPrint under a different name than what you defined in setup.py
 # ("OctoPrint-PluginSkeleton"), you may define that here. Same goes for the other metadata derived from setup.py that
 # can be overwritten via __plugin_xyz__ control properties. See the documentation for that.
 __plugin_name__ = "SnapStream"
-__plugin_implementation__ = SnapStream()
+__plugin_implementation__ = SnapStreamPlugin()
 
 from ._version import get_versions
 __version__ = get_versions()['version']
