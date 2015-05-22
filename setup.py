@@ -12,8 +12,8 @@ versioneer.parentdir_prefix = ''
 plugin_identifier = "snapstream"
 plugin_package = "octoprint_%s" % plugin_identifier
 plugin_name = "OctoPrint-SnapStream"
-plugin_version = "0.1"
-plugin_description = "TODO"
+plugin_version = versioneer.get_version()
+plugin_description = "Emulate webcam streaming by showing a sequence of snapshots"
 plugin_author = "Mark Walker"
 plugin_author_email = "markwal@hotmail.com"
 plugin_url = "https://github.com/markwal/OctoPrint-SnapStream"
@@ -38,8 +38,8 @@ except:
 setup(**octoprint_setuptools.create_plugin_setup_parameters(
 	identifier=plugin_identifier,
 	name=plugin_name,
-	version=versioneer.get_version(),
-	cmdclass = versioneer.get_cmdclass(),
+	version=plugin_version,
+	cmdclass=versioneer.get_cmdclass(),
 	description=plugin_description,
 	author=plugin_author,
 	mail=plugin_author_email,
