@@ -27,14 +27,10 @@ $(function() {
         self.webcamUpdate = function() {
             var webcamImage = $("#webcam_image");
             var currentSrc = webcamImage.attr("src");
-            if (currentSrc === undefined || currentSrc.trim() == "") {
-                clearInterval(self.webcamUpdateInterval);
-            }
-            else {
+            if (currentSrc !== undefined && currentSrc.trim() != "") {
                 webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
+                self.webcamUpdateTimeout = setTimeout(self.webcamUpdate, 1000 / self.settings.fps());
             }
-
-            self.webcamUpdateTimeout = setTimeout(self.webcamUpdate, 1000 / self.settings.fps());
         }
 
         self.onTabChange = function (current, previous) {
