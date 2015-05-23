@@ -12,4 +12,21 @@
             </label>
         </div>
     </div>
+    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox">
+                <input type="checkbox" data-bind="checked: global_settings.webcam_flipH"> {{ _('Flip webcam horizontally') }}
+            </label>
+        </div>
+        <div class="controls">
+            <label class="checkbox">
+                <input type="checkbox" data-bind="checked: global_settings.webcam_flipV"> {{ _('Flip webcam vertically') }}
+            </label>
+        </div>
+        <div class="controls">
+            <label class="checkbox">
+                <input type="checkbox" data-bind="checked: settings.rotate90"> {{ _('Rotate 90 degrees') }}
+            </label>
+        </div>
+    </div>
 </form>

@@ -5,6 +5,13 @@ $(function() {
         self.global_settings = parameters[0];
         self.control = parameters[1];
         self.online = true;
+        self.webcamImage = $("#webcam_image");
+        self.webcamContainer = $("#webcam_container");
+
+        self.setRotation = function() {
+            self.webcamImage.toggleClass("rotate90", self.settings.rotate90());
+            self.webcamContainer.toggleClass("heightequalwidth", self.settings.rotate90());
+        }
 
         self.appendNoCacheMarker = function (url) {
             var newUrl = url;
@@ -17,20 +24,18 @@ $(function() {
         };
 
         self.snapStream = function() {
-            var webcamImage = $("#webcam_image");
-            var currentSrc = webcamImage.attr("src");
+            var currentSrc = self.webcamImage.attr("src");
             if (currentSrc === undefined || currentSrc.trim() == "")
                 return;
-            webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
+            self.webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
             self.webcamUpdateTimeout = setTimeout(self.webcamUpdate, 1000 / self.settings.fps());
         };
 
         self.webcamUpdate = function() {
-            var webcamImage = $("#webcam_image");
-            var currentSrc = webcamImage.attr("src");
+            var currentSrc = self.webcamImage.attr("src");
             if (currentSrc !== undefined && currentSrc.trim() != "") {
                 if (self.online) {
-                    webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
+                    self.webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
                 }
                 self.webcamUpdateTimeout = setTimeout(self.webcamUpdate, 1000 / self.settings.fps());
             }
@@ -38,11 +43,10 @@ $(function() {
 
         self.onTabChange = function (current, previous) {
             if (current == "#control") {
-                var webcamImage = $("#webcam_image");
                 if (self.settings.fallbackonly()) {
-                    webcamImage.error(self.snapStream);
+                    self.webcamImage.error(self.snapStream);
                 } else {
-                    webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
+                    self.webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
                     self.snapStream();
                 }
             }
@@ -60,6 +64,10 @@ $(function() {
         self.onBeforeBinding = function() {
             self.settings = self.global_settings.settings.plugins.snapstream;
         };
+
+        self.onAfterBinding = self.setRotation;
+
+        self.onSettingsBeforeSave = self.setRotation;
     }
 
     OCTOPRINT_VIEWMODELS.push([
