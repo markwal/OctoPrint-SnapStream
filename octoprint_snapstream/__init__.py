@@ -10,7 +10,7 @@ from octoprint.plugin import TemplatePlugin, AssetPlugin, SettingsPlugin
 
 class SnapStreamPlugin(TemplatePlugin, AssetPlugin, SettingsPlugin):
 	def get_settings_defaults(self):
-		return dict(fps=4, fallbackonly=True, rotate90=False)
+		return dict(fps=4, fallbackonly=True)
 
 	def get_template_configs(self):
 		return [dict(type="settings", custom_bindings=True)]

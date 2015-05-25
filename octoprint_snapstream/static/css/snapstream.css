@@ -1,8 +1,3 @@
-.heightequalwidth:before {
-    content: "";
-    display: block;
-    padding-top: 100%;
-}
 #webcam_container .flipV.flipH {
     -ms-transform: scaleX(-1) scaleY(-1);
 }
@@ -11,28 +6,4 @@
 }
 #webcam_container .flipH {
     -ms-transform: scaleX(-1);
-}
-#webcam_container .rotate90 {
-    -ms-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    position: absolute; top: 0; left: 0; bottom: 0; right: 0;
-}
-#webcam_container .flipV.flipH.rotate90 {
-    -ms-transform: rotate(90deg) scaleX(-1) scaleY(-1);
-    -webkit-transform: rotate(90deg) scaleX(-1) scaleY(-1);
-    -moz-transform: rotate(90deg) scaleX(-1) scaleY(-1);
-    position: absolute; top: 0; left: 0; bottom: 0; right: 0;
-}
-#webcam_container .flipV.rotate90 {
-    -ms-transform: rotate(90deg) scaleY(-1);
-    -webkit-transform: rotate(90deg) scaleY(-1);
-    -moz-transform: rotate(90deg) scaleY(-1);
-    position: absolute; top: 0; left: 0; bottom: 0; right: 0;
-}
-#webcam_container .flipH.rotate90 {
-    -ms-transform: rotate(90deg) scaleX(-1);
-    -webkit-transform: rotate(90deg) scaleX(-1);
-    -moz-transform: rotate(90deg) scaleX(-1);
-    position: absolute; top: 0; left: 0; bottom: 0; right: 0;
 }
