@@ -5,6 +5,8 @@ $(function() {
         self.global_settings = parameters[0];
         self.control = parameters[1];
         self.online = true;
+        self.failureCounter = 0;
+        self.webcamImage = $("#webcam_image");
 
         self.appendNoCacheMarker = function (url) {
             var newUrl = url;
@@ -17,32 +19,39 @@ $(function() {
         };
 
         self.snapStream = function() {
-            var webcamImage = $("#webcam_image");
-            var currentSrc = webcamImage.attr("src");
+            var currentSrc = self.webcamImage.attr("src");
             if (currentSrc === undefined || currentSrc.trim() == "")
                 return;
-            webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
+            self.webcamImage.attr("src", self.appendNoCacheMarker(self.settings.url()));
             self.webcamUpdateTimeout = setTimeout(self.webcamUpdate, 1000 / self.settings.fps());
+            self.failureCounter = 0;
+            self.webcamImage.off("error.snapstream");
+            self.webcamImage.off("load.snapstream");
+            self.webcamImage.on("error.snapstream", function() { self.failureCounter += 1; });
+            self.webcamImage.on("load.snapstream", function() { self.failureCounter = 0; });
         };
 
         self.webcamUpdate = function() {
-            var webcamImage = $("#webcam_image");
-            var currentSrc = webcamImage.attr("src");
+            var currentSrc = self.webcamImage.attr("src");
             if (currentSrc !== undefined && currentSrc.trim() != "") {
                 if (self.online) {
-                    webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
+                    self.webcamImage.attr("src", self.appendNoCacheMarker(self.settings.url()));
                 }
-                self.webcamUpdateTimeout = setTimeout(self.webcamUpdate, 1000 / self.settings.fps());
+                if (self.failureCounter < 4) {
+                    self.webcamUpdateTimeout = setTimeout(self.webcamUpdate, 1000 / self.settings.fps());
+                    return;
+                }
             }
+            self.webcamImage.off("load.snapstream");
+            self.webcamImage.off("error.snapstream");
         }
 
         self.onTabChange = function (current, previous) {
             if (current == "#control") {
-                var webcamImage = $("#webcam_image");
                 if (self.settings.fallbackonly()) {
-                    webcamImage.error(self.snapStream);
+                    self.webcamImage.one("error", self.snapStream);
                 } else {
-                    webcamImage.attr("src", self.appendNoCacheMarker(self.global_settings.webcam_snapshotUrl()));
+                    self.webcamImage.attr("src", self.appendNoCacheMarker(self.settings.url()));
                     self.snapStream();
                 }
             }

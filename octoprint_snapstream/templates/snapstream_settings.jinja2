@@ -1,4 +1,10 @@
 <form class="form-horizontal" id="tab_plugin_snapstream">
+    <div class="control-group" title="{{ _('URL for a single snapshot image, the stream will ask for one for each frame') }}">
+        <label class="control-label" for="settings-webcamSnapshotUrl">{{ _('Snapshot URL') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.url" />
+        </div>
+    </div>
     <div class="control-group" data-toggle="tooltip">
         <label class="control-label">{{ _('Frames per second') }}</label>
         <div class="controls">
@@ -8,7 +14,7 @@
     <div class="control-group">
         <div class="controls" data-toggle="tooltip" title="{{ _('If this is checked, try mjpg-streamer first and if that fails, use javascript snapshot flipping instead') }}">
             <label class="checkbox">
-                <input type="checkbox" data-bind="checked: settings.fallbackonly"> {{ _('Only use snapstream when mjpg-streamer fails') }}
+                <input type="checkbox" data-bind="checked: settings.fallbackonly" /> {{ _('Only use snapstream when mjpg-streamer fails') }}
             </label>
         </div>
     </div>

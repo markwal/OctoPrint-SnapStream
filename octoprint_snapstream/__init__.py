@@ -10,7 +10,7 @@ from octoprint.plugin import TemplatePlugin, AssetPlugin, SettingsPlugin
 
 class SnapStreamPlugin(TemplatePlugin, AssetPlugin, SettingsPlugin):
 	def get_settings_defaults(self):
-		return dict(fps=4, fallbackonly=True)
+		return dict(fps=4, fallbackonly=True, url="/webcam/?action=snapshot")
 
 	def get_template_configs(self):
 		return [dict(type="settings", custom_bindings=True)]
