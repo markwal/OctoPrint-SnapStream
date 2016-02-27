@@ -4,6 +4,7 @@ $(function() {
 
         self.global_settings = parameters[0];
         self.control = parameters[1];
+        self.tab = "";
         self.online = true;
         self.failureCounter = 0;
         self.webcamImage = $("#webcam_image");
@@ -47,6 +48,7 @@ $(function() {
         }
 
         self.onTabChange = function (current, previous) {
+            self.tab = current;
             if (current == "#control") {
                 if (self.settings.fallbackonly()) {
                     self.webcamImage.one("error", self.snapStream);
@@ -56,6 +58,12 @@ $(function() {
                 }
             }
         };
+
+        self.onBrowserTabVisibilityChange = function(status) {
+            if (status && self.tab == "#control") {
+                self.onTabChange("#control", "");
+            }
+        }
 
         self.onServerDisconnect = function() {
             self.online = false;
