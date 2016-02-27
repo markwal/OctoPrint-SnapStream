@@ -18,11 +18,34 @@ class SnapStreamPlugin(TemplatePlugin, AssetPlugin, SettingsPlugin):
 	def get_assets(self):
 		return dict(js=["js/snapstream.js"], css=["css/snapstream.css"])
 
-# If you want your plugin to be registered within OctoPrint under a different name than what you defined in setup.py
-# ("OctoPrint-PluginSkeleton"), you may define that here. Same goes for the other metadata derived from setup.py that
-# can be overwritten via __plugin_xyz__ control properties. See the documentation for that.
+	def get_update_information(self, *args, **kwargs):
+		return dict(
+			snapstream=dict(
+				displayName="SnapStream",
+				displayVersion=self._plugin_version,
+
+				# use github release method of version check
+				type="github_release",
+				user="markwal",
+				repo="OctoPrint-SnapStream",
+				current=self._plugin_version,
+
+				# update method: pip
+				pip="https://github.com/markwal/OctoPrint-SnapStream/archive/{target_version}.zip"
+			)
+		)
+
 __plugin_name__ = "SnapStream"
-__plugin_implementation__ = SnapStreamPlugin()
+
+def __plugin_load__():
+	global __plugin_implementation__
+	plugin = SnapStreamPlugin()
+	__plugin_implementation__ = plugin
+
+	global __plugin_hooks__
+	__plugin_hooks__ = {
+		"octoprint.plugin.softwareupdate.check_config": plugin.get_update_information,
+	}
 
 from ._version import get_versions
 __version__ = get_versions()['version']
